@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuVoice Pro - Library Fix</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <div class="lg:col-span-3 bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col relative">
+            <div id="loader" class="loading-overlay hidden">
+                <div class="text-blue-400 font-bold flex flex-col items-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400 mb-2"></div>
+                    Preparing Document...
+                </div>
+            </div>
+
+            <div class="p-6 border-b border-gray-800 flex flex-wrap justify-between items-center bg-gray-900/50 gap-4">
+                <h1 class="text-xl font-bold text-blue-400">🔊 Read Fluent</h1>
+                <div class="flex flex-wrap gap-2">
+                    <input type="file" id="fileInput" accept=".pdf,.docx,.txt" class="hidden">
+                    <label for="fileInput" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3 py-2 rounded-lg cursor-pointer text-xs font-bold transition">📁 Upload</label>
+                    <button onclick="downloadText()" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3 py-2 rounded-lg text-xs font-bold transition">📥 Download</button>
+                    <select id="langSelect" class="bg-gray-800 text-xs border border-gray-700 rounded-lg px-2 py-2 outline-none">
+                        <option value="mr">Marathi</option>
+                        <option value="en" selected>English</option>
+                    </select>
+                    <button onclick="translateText()" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg text-xs font-bold transition">🌐 Translate</button>
+                </div>
+            </div>
+
+            <div id="viewer" contenteditable="true" 
+                 class="w-full h-[400px] p-8 bg-gray-950 text-lg leading-relaxed text-gray-300 focus:ring-1 focus:ring-blue-900 custom-scrollbar">Welcome. Upload a file or select from the Library.</div>
+
+            <div class="px-8 py-4 bg-gray-900 border-t border-gray-800">
+                <input type="range" id="progressSlider" min="0" max="100" value="0" class="w-full h-1.5 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-blue-500 mb-6">
+                
+                <div class="flex flex-wrap items-center justify-between gap-6">
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <button onclick="togglePlay()" id="playBtn" class="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-xl font-bold flex-1 md:flex-none transition">▶ Play</button>
+                        <button onclick="stopTTS()" class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl transition">Stop</button>
+                    </div>
+
+                    <div class="flex items-center gap-4 bg-gray-800 px-4 py-2 rounded-xl border border-gray-700">
+                        <span id="speedValue" class="text-blue-400 font-mono font-bold w-10">1.0x</span>
+                        <input type="range" id="speedRange" min="0.5" max="2.5" step="0.1" value="1" class="w-24 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                    </div>
+
+                    <button onclick="saveToQueue()" class="bg-blue-600 hover:bg-blue-500 px-4 py-3 rounded-xl text-sm font-bold transition">💾 Save Library</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col h-full">
+            <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Saved Items</h2>
+            <div id="queueList" class="space-y-3 overflow-y-auto custom-scrollbar flex-1 pr-2">
+                <p class="text-gray-600 text-xs italic">No saved items.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Section -->
+    <div id="chat-circle" class="btn btn-raised">
+        <div id="chat-overlay"></div>
+        <span class="chat-icon">💬</span>
+    </div>
+
+    <div class="chat-box">
+        <div class="chat-box-header">
+            AI Assistant
+            <span class="chat-box-toggle">×</span>
+        </div>
+        <div class="chat-box-body">
+            <div class="chat-logs"></div>
+        </div>
+        <div class="chat-input">
+            <form>
+                <input type="text" id="chat-input" placeholder="Send a message..."/>
+                <button type="submit" class="chat-submit" id="chat-submit">➤</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Link to your JS file -->
+    <script src="script.js"></script>
+</body>
+</html>
