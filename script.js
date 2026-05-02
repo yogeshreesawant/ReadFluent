@@ -237,3 +237,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initial load
 renderLibrary();
 window.speechSynthesis.onvoiceschanged = () => synth.getVoices();
+
+// Replace these placeholders with the actual strings from your dashboard
+const SUPABASE_URL = '[https://mehjcqzbscppgxepjzez.supabase.co/rest/v1/](https://mehjcqzbscppgxepjzez.supabase.co/rest/v1/)';
+const SUPABASE_KEY = 'sb_publishable_eG4Qi-IuPWPCk1_6PKWemw_BR77yy6z'; 
+
+// Initialize the client
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
