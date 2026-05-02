@@ -2,6 +2,13 @@ const viewer = document.getElementById('viewer');
 const queueList = document.getElementById('queueList');
 const loader = document.getElementById('loader');
 const synth = window.speechSynthesis;
+// For Backend API
+const SUPABASE_URL = 'https://mehjcqzbscppgxepjzez.supabase.co/rest/v1/';
+const SUPABASE_KEY = 'sb_publishable_eG4Qi-IuPWPCk1_6PKWemw_BR77yy6z'; 
+
+// Initialize the client
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 let originalText = ""; 
 let currentIdx = 0;
 let utterance = null;
@@ -247,14 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 renderLibrary();
 window.speechSynthesis.onvoiceschanged = () => synth.getVoices();
 
-// Replace these placeholders with the actual strings from your dashboard
-const SUPABASE_URL = 'https://mehjcqzbscppgxepjzez.supabase.co/rest/v1/';
-const SUPABASE_KEY = 'sb_publishable_eG4Qi-IuPWPCk1_6PKWemw_BR77yy6z'; 
-
-// Initialize the client
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// 2. save function to use the new name
+// save function to use the new name
 async function saveToQueue() {
     const text = viewer.innerText;
     if (text.length < 5) return;
